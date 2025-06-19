@@ -12,9 +12,9 @@
 	},
 	"triggers": {
 		"crons": [
-			"* * * * *"
+			"30 0 * * *"
 		]
-	}
+	},
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
@@ -32,7 +32,9 @@
 	 * Environment Variables
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
 	 */
-	// "vars": { "MY_VARIABLE": "production_value" },
+	"vars": {
+		"CLOUDFLARE_ACCOUNT_ID": "d7d45e21d8af58b7a58d2fb1318805ad"
+	},
 	/**
 	 * Note: Use secrets to store sensitive data.
 	 * https://developers.cloudflare.com/workers/configuration/secrets/
@@ -48,5 +50,12 @@
 	 * Service Bindings (communicate between multiple Workers)
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings
 	 */
-	// "services": [{ "binding": "MY_SERVICE", "service": "my-service" }]
+	// "services": [{ "binding": "MY_SERVICE", "service": "my-service" }],
+
+	"r2_buckets": [
+		{
+			"binding": "R2_BUCKET",
+			"bucket_name": "byrdocs"
+		}
+	]
 }
