@@ -146,7 +146,7 @@ export default {
 		}
 
 		if (url.pathname === '/') {
-			const readme = await fetch("https://raw.githubusercontent.com/byrdocs/byrdocs-logs/refs/heads/main/README.md")
+			const readme = await cachedFetch("https://raw.githubusercontent.com/byrdocs/byrdocs-logs/refs/heads/main/README.md")
 			const htmlWithContent = html.replace(
 				'<div id="content"></div>',
 				`<div id="content"></div>
@@ -176,3 +176,13 @@ export default {
 		}
 	},
 } satisfies ExportedHandler<Env>;
+
+
+async function cachedFetch(url: string) {
+	const cache = await caches.open('byrdocs-logs');
+	const hit = await cache.match(url);
+	if (hit) return hit;
+	const response = await fetch(url);
+	await cache.put(url, response.clone());
+	return response;
+}
