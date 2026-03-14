@@ -3,7 +3,7 @@
 declare namespace Cloudflare {
 	interface Env {
 		CLOUDFLARE_ACCOUNT_ID: "d7d45e21d8af58b7a58d2fb1318805ad";
-		CLOUDFLARE_API_TOKEN: string;
+		ANALYTICS_API_TOKEN: string;
 		R2_BUCKET: R2Bucket;
 	}
 }

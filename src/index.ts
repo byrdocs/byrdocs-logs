@@ -58,7 +58,7 @@ async function fetchLogsByDate(env: Env, targetDate?: string): Promise<LogEntry[
 	const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${env.CLOUDFLARE_ACCOUNT_ID}/analytics_engine/sql`, {
 		method: 'POST',
 		headers: {
-			Authorization: `Bearer ${env.CLOUDFLARE_API_TOKEN}`,
+			Authorization: `Bearer ${env.ANALYTICS_API_TOKEN}`,
 		},
 		body: query,
 	});
@@ -115,7 +115,7 @@ export default {
 		if (url.pathname === '/trigger-logs' && request.method === 'POST') {
 			const authHeader = request.headers.get('Authorization');
 
-			if (!authHeader || authHeader !== `Bearer ${env.CLOUDFLARE_API_TOKEN}`) {
+			if (!authHeader || authHeader !== `Bearer ${env.ANALYTICS_API_TOKEN}`) {
 				return new Response('Unauthorized', { status: 401 });
 			}
 
