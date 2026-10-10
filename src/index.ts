@@ -46,8 +46,13 @@ async function fetchLogsByDate(env: Env, targetDate?: string): Promise<LogEntry[
 	const startDate = new Date(date);
 	startDate.setUTCHours(0, 0, 0, 0);
 
-	const endDate = new Date(date);
-	endDate.setUTCHours(23, 59, 59, 999);
+	// Half-open [start, next midnight). The previous upper bound was
+	// 23:59:59.999, but the milliseconds were cut off when formatting, so
+	// `< '23:59:59'` silently dropped every event logged in the day's final
+	// second — and the next day's query starts at 00:00:00, so nothing ever
+	// picked them up.
+	const endDate = new Date(startDate);
+	endDate.setUTCDate(endDate.getUTCDate() + 1);
 
 	const startDateStr = startDate.toISOString().replace('T', ' ').split('.')[0];
 	const endDateStr = endDate.toISOString().replace('T', ' ').split('.')[0];
